@@ -41,10 +41,17 @@
       --text: #f3e8ff; --muted: #a78bfa;
     }
 
+    /* ── FONT CLASSES ── */
+    .font-inter, .font-inter * { font-family: 'Inter', sans-serif; }
+    .font-space, .font-space * { font-family: 'Space Grotesk', sans-serif; }
+    .font-poppins, .font-poppins * { font-family: 'Poppins', sans-serif; }
+    .font-comic, .font-comic * { font-family: 'Comic Neue', cursive; }
+
     body {
       background: var(--bg); color: var(--text);
       height: 100dvh; display: flex; overflow: hidden;
       transition: all 0.4s ease; flex-direction: row;
+      font-family: 'Inter', sans-serif;
     }
 
     /* ── SIDEBAR (DESKTOP) ── */
@@ -213,7 +220,6 @@
     @media (max-width: 640px) {
       body { flex-direction: column; }
 
-      /* Sidebar jadi overlay dari kiri */
       aside {
         position: fixed; top: 0; left: 0;
         height: 100dvh; width: 280px;
@@ -223,7 +229,6 @@
       }
       aside.open { transform: translateX(0); }
 
-      /* Topbar muncul di mobile */
       .topbar { display: flex; }
 
       main { height: 100dvh; }
@@ -236,7 +241,6 @@
 
       #btn-scroll-bottom { right: 14px; bottom: 90px; }
 
-      /* Welcome screen di mobile */
       .welcome { padding: 20px 12px; }
       .welcome h2 { font-size: 1.25rem; }
       .chips { gap: 8px; }
@@ -246,7 +250,6 @@
 </head>
 <body class="font-inter">
 
-  <!-- OVERLAY untuk menutup sidebar di mobile -->
   <div class="sidebar-overlay" id="sidebar-overlay" onclick="tutupSidebar()"></div>
 
   <aside id="sidebar">
@@ -299,7 +302,6 @@
   </aside>
 
   <main>
-    <!-- Topbar hanya muncul di mobile -->
     <div class="topbar">
       <button class="btn-toggle-sidebar" id="btn-toggle-sidebar" onclick="toggleSidebar()">☰</button>
       <span class="topbar-title">AwieebieAi ✨</span>
@@ -418,7 +420,7 @@
         idSesiAktif = idSesi;
         bukaSesiChat(idSesi);
         renderDaftarSidebar();
-        tutupSidebar(); // auto tutup sidebar di mobile setelah pilih chat
+        tutupSidebar();
       };
       const titleSpan = document.createElement('span');
       titleSpan.className = 'chat-title';
@@ -500,16 +502,20 @@
     tutupSidebar();
   });
 
+  /* ── FONT SELECTOR ── */
   selectFont.addEventListener('change', (e) => {
     document.body.classList.remove('font-inter', 'font-space', 'font-poppins', 'font-comic');
     document.body.classList.add(e.target.value);
     localStorage.setItem('awieebie_font', e.target.value);
   });
+
+  /* ── THEME SELECTOR ── */
   selectTheme.addEventListener('change', (e) => {
     document.documentElement.setAttribute('data-theme', e.target.value);
     localStorage.setItem('awieebie_theme', e.target.value);
   });
 
+  /* ── LOAD SAVED PREFERENCES ── */
   if (localStorage.getItem('awieebie_theme')) {
     const t = localStorage.getItem('awieebie_theme');
     selectTheme.value = t;
