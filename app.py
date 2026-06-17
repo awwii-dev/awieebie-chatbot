@@ -139,7 +139,7 @@ def riwayat():
 
 
 # ─────────────────────────────────────────
-#  JALANKAN SERVER
+#  JALANKAN SERVER (DIPERBAIKI UNTUK RAILWAY)
 # ─────────────────────────────────────────
 if __name__ == "__main__":
     if not API_KEY:
@@ -148,5 +148,8 @@ if __name__ == "__main__":
         print("    Dapatkan key gratis di: https://console.groq.com/keys\n")
     else:
         print(f"\n✓ {NAMA_BOT} siap digunakan!")
-        print("  Buka browser → http://localhost:5000\n")
-        app.run(debug=True, port=5000)
+        # Mengambil port otomatis dari Railway. Jika di komputer sendiri, pakai port 5000.
+        port = int(os.environ.get("PORT", 5000))
+        
+        # Di server produksi seperti Railway, ganti host ke '0.0.0.0' agar bisa diakses publik
+        app.run(host="0.0.0.0", port=port)
